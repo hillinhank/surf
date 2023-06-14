@@ -40,13 +40,14 @@ def welcome():
     /api/v1.0/temp/start/end
     ''')
 
-# 9.5.3 
+# 9.5.3 precip route and jsonify the data
 @app.route("/api/v1.0/precipitation")
 def precipitation():
-    prev_year = dt.date(2017, 8, 23) - dt.timedelta(days=365)
-    precipitation = session.query(Measurement.date, Measurement.prcp).\
-      filter(Measurement.date >= prev_year).all()
-    return
+   prev_year = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+   precipitation = session.query(Measurement.date, Measurement.prcp).\
+    filter(Measurement.date >= prev_year).all()
+   precip = {date: prcp for date, prcp in precipitation}
+   return jsonify(precip)
 
 #### 9.4.1, 9.4.2 and 9.4.3 - flask app
 # from flask import Flask
